@@ -10,9 +10,9 @@ variable private_subnets_cidr_blocks {}
 data "aws_availability_zones" "azs"{}
 
 module "myk8s_app-vpc"{
-      source = "terraform-aws-modules/vpc/aws"
+      source = "terraform-aws-modules/vpc/aws"              //it gets downloaded from terraform registry
 
-      name="myk8s_app_vpc"
+      name="myk8s_app-vpc"
       cidr=var.vpc_cidr_block
       private_subnets = var.private_subnets_cidr_blocks
       public_subnets  = var.public_subnets_cidr_blocks
@@ -28,12 +28,12 @@ module "myk8s_app-vpc"{
 
       public_subnet_tags={                  # open for internet
             "kubernetes.io/cluster/myk8sapp-eks-cluster"="shared"     #name of cluster
-            "kuberenetes.io/role/elb"=1       #  so that itaws knows that's public so internet
+            "kuberenetes.io/role/elb"=1       #  so that aws knows that's public so internet
       }
 
       private_subnet_tags={             # not open for internet
             "kubernetes.io/cluster/myk8sapp-eks-cluster"="shared"       #name of cluster
-            "kuberenetes.io/role/internal-elb"=1            #  so that itaws knows that's private so no internet
+            "kuberenetes.io/role/internal-elb"=1            #  so that aws knows that's private so no internet
       }
 
         
